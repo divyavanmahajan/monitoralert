@@ -1,0 +1,16 @@
+{
+  "name": "monitoralert",
+  "version": "1.0.0",
+  "description": "Trigger an alert when 3 or more exceptions occur in a sequence.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Divya van Mahajan <dvm@vanmahajan.com>",
+  "license": "ISC",
+  "dependencies": {
+    "firebase": "^2.4.2",
+    "moment": "^2.13.0",
+    "twilio": "^2.9.1"
+  }
+}

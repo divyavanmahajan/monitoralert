@@ -1,0 +1,13 @@
+.idea
+node_modules
+.DS_Store
+npm-debug.log
+dbconfig.js
+tnsnames.ora
+output.csv
+dump.sql
+dumpdata.sh
+dump.info
+output*.csv
+test/*
+bin/logs/*
