@@ -23,14 +23,33 @@ monitoralert.initialize = function(dbconfig) {
     };
 
 var counter = 0;
+var observations = {};
 function setupListener() {
-  monitoralert.util.baseRef.on("child_added",function(dataSnapshot,prevKey) {
-        if (dataSnapshot.exists()) {
+  //var query = monitoralert.util.baseRef.orderByKey().limitToLast(10);
+  var query = monitoralert.util.baseRef.orderByKey().startAt('2016-05-11').endAt('2016-05-12');
+	// Use second one for testing on a particular date range
+  query.on("child_added",addObservation);
+  query.on("child_changed",addObservation);
+  query.on("child_removed",removeObservation);
+}
+
+function removeObservation(dataSnapshot) {
+	if (dataSnapshot.exists()) {
+            delete observations[dataSnapshot.key()];
+            console.info("remove", dataSnapshot.key());//,JSON.stringify(dataSnapshot.val()));
+        }
+}
+function addObservation(data) {
+	if (data.exists()) {
+	    var key=data.key();
+	    var val=data.val();
+	    if (key[0]!='2') return;
+	    observations[data.key()]=data.val();
 	    // Get the record
 	    // Logic here on the counter
-	    console.info(dataSnapshot.key());//,JSON.stringify(dataSnapshot.val()));
+	    console.info("add",data.key(),val.ServiceContract_missed,val.ServiceContract_latency); //JSON.stringify(data.val()));
+		// Inject counter logic here
         }
-  });
 }
 
 function onCtrlC() {
