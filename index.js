@@ -26,7 +26,7 @@ var counter = 0;
 var observations = {};
 function setupListener() {
   //var query = monitoralert.util.baseRef.orderByKey().limitToLast(10);
-  var query = monitoralert.util.baseRef.orderByKey().startAt('2016-05-11').endAt('2016-05-12');
+  var query = monitoralert.util.baseRef.orderByKey().startAt('2016-05-11T01:40:00').endAt('2016-05-11T03:15:00');
 	// Use second one for testing on a particular date range
   query.on("child_added",addObservation);
   query.on("child_changed",addObservation);
@@ -47,9 +47,35 @@ function addObservation(data) {
 	    observations[data.key()]=data.val();
 	    // Get the record
 	    // Logic here on the counter
-	    console.info("add",data.key(),val.ServiceContract_missed,val.ServiceContract_latency); //JSON.stringify(data.val()));
-		// Inject counter logic here
+	    if (val.ServiceContract_missed >0) {console.info("add",data.key(),val.ServiceContract_missed,val.ServiceContract_latency); //JSON.stringify(data.val()));
+		}
+    // Inject counter logic here
+    var errors = val.ServiceContract_missed;
+
+       if (errors > 0){
+            console.log('yes there is an error');
+            //and the counter is at 2
+            if (counter == 2){
+                console.log('yes the counter is at 2');
+                //send an alert
+                var message = "3 in a row";
+                console.error("SENT ALERT");
+                monitoralert.sendalert.makecall();
+                //reset counter to zero
+                counter = 0;
+            }
+            //otherwise add 1 to the counter
+            else {
+                console.log('counter not at 2, increment the counter');
+                counter = counter +1;
+            }
         }
+        //if there is not an error, reset the counter to zero
+        else {
+            //console.log('no error, reset the counter');
+            counter = 0;
+        }
+      }  
 }
 
 function onCtrlC() {
