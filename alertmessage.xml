@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Response>
-     <Say voice="man" loop="3">There have been three consecutive data flow issues between Salesforce and MSODB</Say>
+     <Say voice="man" loop="3">There have been three consecutive data flow issues between Salesforce and M S O D B.</Say>
 </Response>
